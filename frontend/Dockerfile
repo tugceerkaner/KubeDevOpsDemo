@@ -7,8 +7,8 @@ FROM nginx:latest
 COPY . /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 8080
-EXPOSE 8080
+# Expose port 3000
+EXPOSE 3000
 
 # Run nginx in foreground with custom configuration
 CMD ["nginx", "-g", "daemon off;"]

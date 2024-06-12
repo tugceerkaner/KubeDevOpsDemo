@@ -6,6 +6,8 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -25,51 +27,51 @@
     <div class="overflow-hidden  w-full ">
       <div class="text-center mb-10">
         <h1 class=" text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Kube DevOps Main</h1>
-        <p class="mt-6 text-base leading-7 text-gray-600">Connection to Backend?  <span class="text-green-600 font-semibold"> Success!</span></p>
-        <p class="mt-2 text-base leading-7 text-gray-600"> Connection to DB? <span class="text-indigo-600 font-semibold"> Established!</span></p>
+        <p class="mt-6 text-base leading-7 text-gray-600">Connection to Backend?  <span class=" font-semibold" id="backend-status"></span></p>
+        <p class="mt-2 text-base leading-7 text-gray-600"> DB Status: <span class="text-indigo-600 font-semibold " id="db-status"> </span></p>
       </div>
       <div class="mx-auto mt-2  max-w-7xl px-6 lg:px-8 ">
         <div class="mt-2 mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-          <div class="px-10 lg:pt-4 bg-white rounded-md">
+          <div class="px-10 lg:pt-4 bg-white rounded-md py-10">
             <div class="lg:max-w-lg">
-              <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 ">Leave a message! </p>
+              <p class="text-3xl font-bold tracking-tight text-gray-900 ">Leave a message! </p>
               <p class="mt-6 text-base leading-7 text-gray-600">Create a message that will be sent to the backend and saved to the DB</p>
               <dl class=" max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                 <form class=" mt-5 space-y-6 px-3"
                 method="POST"
-                action="#">
-                  <div class="">
-                    <label for="name" class="block text-sm font-semibold leading-6 text-gray-900">Name</label>
-                    <div class="mt-2.5">
-                      <input type="text"
-                            name="company"
-                            id="company"
-                            autocomplete="organization"
-                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
+                action="#" id="contact-form">
+                <div class="">
+                  <label for="name" class="block text-sm font-semibold leading-6 text-gray-900">Name</label>
+                  <div class="mt-2.5">
+                    <input type="text"
+                          name="name"
+                          id="name"
+                          autocomplete="name"
+                          class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
-                  <div class="sm:col-span-2">
-                    <label for="email"
-                          class="block text-sm font-semibold leading-6 text-gray-900">Email</label>
-                    <div class="mt-2.5">
-                      <input type="email"
-                            name="email"
-                            id="email"
-                            autocomplete="email"
-                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                  <label for="email"
+                        class="block text-sm font-semibold leading-6 text-gray-900">Email</label>
+                  <div class="mt-2.5">
+                    <input type="email"
+                          name="email"
+                          id="email"
+                          autocomplete="email"
+                          class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                   </div>
+                </div>
 
-                  <div class="sm:col-span-2">
-                    <label for="message"
-                          class="block text-sm font-semibold leading-6 text-gray-900">Message</label>
-                    <div class="mt-2.5">
-                      <textarea name="message"
-                                id="message"
-                                rows="4"
-                                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
-                    </div>
+                <div class="sm:col-span-2">
+                  <label for="message"
+                        class="block text-sm font-semibold leading-6 text-gray-900">Message</label>
+                  <div class="mt-2.5">
+                    <textarea name="message"
+                              id="message"
+                              rows="4"
+                              class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                   </div>
+                </div>
 
                   <div class="mt-10">
                     <button type="submit"
@@ -81,95 +83,9 @@
           </div>
           <div class="">
             <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Message List</h2>
-            <ul role="list" class="divide-y divide-gray-100">
-              <li class="flex justify-between gap-x-6 py-5">
-                <div class="flex min-w-0 gap-x-4">
+            <ul role="list" class="divide-y divide-gray-100" id="records">
 
-                  <div class="min-w-0 flex-auto">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">Leslie Alexander</p>
-                    <p class="mt-1 text-sm leading-6 text-gray-900">Create a message that will be sent to the backend and saved to the DB</p>
-                    
-                  </div>
-                </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                  <p class="truncate text-xs leading-5 text-gray-500">leslie.alexander@example.com</p>
-                  <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-                </div>
-              </li>
-              <li class="flex justify-between gap-x-6 py-5">
-                <div class="flex min-w-0 gap-x-4">
 
-                  <div class="min-w-0 flex-auto">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">Michael Foster</p>
-                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">michael.foster@example.com</p>
-                  </div>
-                </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                  <p class="text-sm leading-6 text-gray-900">Co-Founder / CTO</p>
-                  <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-                </div>
-              </li>
-              <li class="flex justify-between gap-x-6 py-5">
-                <div class="flex min-w-0 gap-x-4">
-
-                  <div class="min-w-0 flex-auto">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">Dries Vincent</p>
-                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">dries.vincent@example.com</p>
-                  </div>
-                </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                  <p class="text-sm leading-6 text-gray-900">Business Relations</p>
-                  <div class="mt-1 flex items-center gap-x-1.5">
-                    <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-                      <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
-                    </div>
-                    <p class="text-xs leading-5 text-gray-500">Online</p>
-                  </div>
-                </div>
-              </li>
-              <li class="flex justify-between gap-x-6 py-5">
-                <div class="flex min-w-0 gap-x-4">
-
-                  <div class="min-w-0 flex-auto">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">Lindsay Walton</p>
-                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">lindsay.walton@example.com</p>
-                  </div>
-                </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                  <p class="text-sm leading-6 text-gray-900">Front-end Developer</p>
-                  <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-                </div>
-              </li>
-              <li class="flex justify-between gap-x-6 py-5">
-                <div class="flex min-w-0 gap-x-4">
-
-                  <div class="min-w-0 flex-auto">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">Courtney Henry</p>
-                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">courtney.henry@example.com</p>
-                  </div>
-                </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                  <p class="text-sm leading-6 text-gray-900">Designer</p>
-                  <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-                </div>
-              </li>
-              <li class="flex justify-between gap-x-6 py-5">
-                <div class="flex min-w-0 gap-x-4">
-                  <div class="min-w-0 flex-auto">
-                    <p class="text-sm font-semibold leading-6 text-gray-900">Tom Cook</p>
-                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">tom.cook@example.com</p>
-                  </div>
-                </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                  <p class="text-sm leading-6 text-gray-900">Director of Product</p>
-                  <div class="mt-1 flex items-center gap-x-1.5">
-                    <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-                      <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
-                    </div>
-                    <p class="text-xs leading-5 text-gray-500">Online</p>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
         </div>
@@ -177,13 +93,12 @@
     </div>
     
   </main>
-  
-
+  <div id="toast-container" class="fixed top-4 right-4 space-y-4"></div>
   <footer class="fixed bottom-0 text-center z-20 w-full p-5 bg-white border-t border-gray-200 shadow  md:p-3 dark:bg-gray-800 dark:border-gray-600">
     <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024   Made by Dindy
     </span>
-  
   </footer>
+  <script src="main.js"></script>
 
 </body>
 
