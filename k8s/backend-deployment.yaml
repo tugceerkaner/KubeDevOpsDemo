@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-backend-deployment
+  namespace: backend-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deploy-backend
+  template:
+    metadata:
+      labels:
+        app: deploy-backend
+    spec:
+      containers:
+      - name: deploy-backend-container
+        image: gcr.io/micro-docker-test/deploy-backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DB_HOST
+          value: "postgres-service.backend-namespace.svc.cluster.local"
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_NAME
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        - name: DB_PORT
+          value: "5432"
+        - name: TZ
+          value: "America/Toronto"
+      imagePullSecrets:
+      - name: regcred
+  
