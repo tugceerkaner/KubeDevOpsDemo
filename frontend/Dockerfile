@@ -1,14 +1,16 @@
 # frontend/Dockerfile
 
-# Use an official Nginx runtime as a parent image
 FROM nginx:latest
 
-# Copy the current directory contents into the container at /usr/share/nginx/html
-COPY . /usr/share/nginx/html
+# Remove default nginx configuration file
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 3000
+# Copy application files to the Nginx html directory
+COPY . /usr/share/nginx/html
+
 EXPOSE 3000
 
-# Run nginx in foreground with custom configuration
 CMD ["nginx", "-g", "daemon off;"]
