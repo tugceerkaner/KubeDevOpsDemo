@@ -8,10 +8,21 @@ provider "google-beta" {
   region  = var.region
 }
 
+
+provider "kubernetes" {
+  host                   = google_container_cluster.primary.endpoint
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
+  load_config_file       = false
+}
+
+data "google_client_config" "default" {}
+
 resource "google_container_cluster" "primary" {
   name     = "terraform-cluster"
   location = "us-central1-a"
   initial_node_count = 3
+  
 
   remove_default_node_pool = true
   node_config {
