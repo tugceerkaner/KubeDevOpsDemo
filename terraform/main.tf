@@ -29,6 +29,23 @@ resource "google_container_cluster" "primary" {
   }
 }
 
+resource "google_compute_address" "frontend_ip" {
+  name = "frontend-ip"
+  region = "us-central1"
+}
+
+resource "google_compute_address" "backend_ip" {
+  name = "backend-ip"
+  region = "us-central1"
+}
+
+resource "google_artifact_registry_repository" "repo" {
+  provider = google-beta
+  location      = "us"
+  repository_id = "gcr.io"
+  format       = "DOCKER"
+}
+
 resource "kubernetes_namespace" "backend_namespace" {
   metadata {
     name = "backend-namespace"
@@ -65,23 +82,4 @@ resource "kubernetes_secret" "postgres_credentials" {
     POSTGRES_PASSWORD = base64encode("postgres")
   }
 }
-
-
-resource "google_compute_address" "frontend_ip" {
-  name = "frontend-ip"
-  region = "us-central1"
-}
-
-resource "google_compute_address" "backend_ip" {
-  name = "backend-ip"
-  region = "us-central1"
-}
-
-resource "google_artifact_registry_repository" "repo" {
-  provider = google-beta
-  location      = "us"
-  repository_id = "gcr.io"
-  format       = "DOCKER"
-}
-
 
