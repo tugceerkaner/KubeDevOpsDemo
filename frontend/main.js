@@ -1,3 +1,5 @@
+const backendUrl = 'http://34.27.58.52'; 
+
 async function fetchMessage(url) {
     const response = await fetch(url);
     const data = await response.json();
@@ -9,7 +11,7 @@ async function fetchMessages() {
     const db_status = document.getElementById('db-status');
 
     try {
-        const helloResponse = await fetch('http://34.29.236.40/api/message');
+        const helloResponse = await fetch(`${backendUrl}/api/message`);
         const helloData = await helloResponse.json();
 
         console.log("helloResponse", helloData)
@@ -22,7 +24,7 @@ async function fetchMessages() {
             backend_status.classList.add("text-red-600");
         }
 
-        const dbResponse = await fetch('http://34.29.236.40/api/check_connection');
+        const dbResponse = await fetch(`${backendUrl}/api/check_connection`);
         const dbData = await dbResponse.json();
 
         if (dbData.status === 'success') {
@@ -46,7 +48,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     const message = document.getElementById('message').value;
 
     try {
-        const response = await fetch('http://34.29.236.40/api/message/add', {
+        const response = await fetch(`${backendUrl}/api/message/add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -74,7 +76,7 @@ document.getElementById('contact-form').addEventListener('submit', async functio
 });
 
 async function fetchRecords() {
-    const response = await fetch('http://34.29.236.40/api/messages');
+    const response = await fetch(`${backendUrl}/api/messages`);
     const data = await response.json();
     const recordsList = document.getElementById('records');
     recordsList.innerHTML = '';
