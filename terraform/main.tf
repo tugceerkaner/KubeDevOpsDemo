@@ -13,8 +13,9 @@ resource "google_container_cluster" "primary" {
   location = "us-central1-a"
   initial_node_count = 3
 
+  remove_default_node_pool = true
   node_config {
-    machine_type = "e2-medium"
+    disk_size_gb = "20"
   }
 }
 
