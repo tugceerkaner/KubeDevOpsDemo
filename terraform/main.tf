@@ -1,7 +1,11 @@
 provider "google" {
-  project = "micro-docker-test"
-  region  = "us-central1"
-  zone    = "us-central1-a"
+  project = var.project_id
+  region  = var.region
+}
+
+provider "google-beta" {
+  project = var.project_id
+  region  = var.region
 }
 
 resource "google_container_cluster" "primary" {
@@ -29,7 +33,6 @@ resource "google_artifact_registry_repository" "repo" {
   location      = "us"
   repository_id = var.gcr_var
   format       = "DOCKER"
-  description  = "Docker repository"
 }
 
 resource "kubernetes_namespace" "backend_namespace" {
