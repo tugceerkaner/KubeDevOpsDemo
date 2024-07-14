@@ -9,6 +9,10 @@ steps:
         cd terraform
         terraform output -json > ../terraform_output.json
 
+  # Upload the output to Google Cloud Storage
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['cp', 'terraform_output.json', 'gs://micro-docker-bucket/terraform_output.json']
+
   # Run the script to update main.js and Kubernetes YAML files
   - name: 'node:22'
     entrypoint: 'bash'
