@@ -1,4 +1,5 @@
 steps:
+
   # Apply Terraform to get the IP addresses
   - name: 'hashicorp/terraform:light'
     entrypoint: 'sh'
@@ -6,8 +7,8 @@ steps:
       - '-c'
       - |
         cd terraform
-        # terraform init
-        # terraform apply -var="project_id=micro-docker-test" -var="region=us-central1" -var="zone=us-central1-a" -var="gcr_var=micro-docker-test" -auto-approve
+        terraform init
+        terraform apply -var="project_id=micro-docker-test" -var="region=us-central1" -var="zone=us-central1-a" -auto-approve
         terraform output -json > ../terraform_output.json
 
 
@@ -17,7 +18,7 @@ steps:
     args:
       - '-c'
       - |
-        npm install -g fs
+        npm install fs
         node updateConfig.js
         
   # Build Docker images for the backend and frontend
