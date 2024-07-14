@@ -21,7 +21,7 @@ frontendService = frontendService.replace(/loadBalancerIP: .*/, `loadBalancerIP:
 fs.writeFileSync('./k8s/frontend-service.yaml', frontendService);
 
 // Update main.js
-let mainJsContent = fs.readFileSync('./frontend/main.js', 'utf-8');
+let mainJsContent = fs.readFileSync('./frontend/main.js', 'utf8');
 mainJsContent = mainJsContent.replace(/const backendUrl = ".*";/, `const backendUrl = "http://${backendIp}";`);
 fs.writeFileSync('./frontend/main.js', mainJsContent);
 

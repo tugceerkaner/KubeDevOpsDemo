@@ -1,4 +1,4 @@
-const backendUrl = '{{BACKEND_IP}}';
+const backendUrl = ".*";
 
 console.log('backendUrl', backendUrl);
 
