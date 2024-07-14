@@ -32,7 +32,7 @@ resource "google_compute_address" "backend_ip" {
 resource "google_artifact_registry_repository" "repo" {
   provider = google-beta
   location      = "us"
-  repository_id = var.gcr_var
+  repository_id = "gcr.io"
   format       = "DOCKER"
 }
 
