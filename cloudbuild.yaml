@@ -5,7 +5,7 @@ steps:
     args:
       - '-c'
       - |
-        # cd terraform
+        cd terraform
         # terraform init
         # terraform apply -var="project_id=micro-docker-test" -var="region=us-central1" -var="zone=us-central1-a" -var="gcr_var=micro-docker-test" -auto-approve
         terraform output -json > ../terraform_output.json
