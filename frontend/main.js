@@ -1,5 +1,7 @@
 const backendUrl = '{{BACKEND_IP}}';
 
+console.log('backendUrl', backendUrl);
+
 async function fetchMessage(url) {
     const response = await fetch(url);
     const data = await response.json();

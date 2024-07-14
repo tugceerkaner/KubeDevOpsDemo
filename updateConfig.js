@@ -6,6 +6,10 @@ const terraformOutput = JSON.parse(fs.readFileSync('./terraform_output.json', 'u
 const backendIp = terraformOutput.backend_ip.value;
 const frontendIp = terraformOutput.frontend_ip.value;
 
+console.log('backendIp', backendIp);
+
+console.log('frontendIp', frontendIp);
+
 // Update backend-service.yaml
 let backendService = fs.readFileSync('./k8s/backend-service.yaml', 'utf8');
 backendService = backendService.replace(/loadBalancerIP: .*/, `loadBalancerIP: ${backendIp}`);
