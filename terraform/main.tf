@@ -89,10 +89,10 @@ resource "kubernetes_secret" "db_credentials" {
     namespace = kubernetes_namespace.backend_namespace.metadata[0].name
   }
   data = {
-    DB_HOST     = base64encode("db")
-    DB_NAME     = base64encode("devops_db")
-    DB_USER     = base64encode("dindygomez")
-    DB_PASSWORD = base64encode("postgres")
+    DB_HOST     = "db"
+    DB_NAME     = "devops_db"
+    DB_USER     = "dindygomez"
+    DB_PASSWORD = "postgres"
   }
 }
 
@@ -102,9 +102,9 @@ resource "kubernetes_secret" "postgres_credentials" {
     namespace = kubernetes_namespace.backend_namespace.metadata[0].name
   }
   data = {
-    POSTGRES_DB     = base64encode("devops_db")
-    POSTGRES_USER   = base64encode("dindygomez")
-    POSTGRES_PASSWORD = base64encode("postgres")
+    POSTGRES_DB     = "devops_db"
+    POSTGRES_USER   = "dindygomez"
+    POSTGRES_PASSWORD = "postgres"
   }
 }
 
