@@ -18,7 +18,7 @@ provider "kubernetes" {
 data "google_client_config" "default" {}
 
 resource "google_container_cluster" "primary" {
-  name     = "terraform-cluster1"
+  name     = "terraform-cluster"
   location = "us-central1-a"
   initial_node_count = 3
   
