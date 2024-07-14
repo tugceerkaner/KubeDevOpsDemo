@@ -5,18 +5,11 @@ steps:
     args:
       - '-c'
       - |
-        cd terraform
-        terraform init
-        terraform apply -var="project_id=micro-docker-test" -var="region=us-central1" -var="zone=us-central1-a" -var="gcr_var=micro-docker-test" -auto-approve
-
-  # Retrieve the Terraform outputs and update environment variables
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        cd terraform
+        # cd terraform
+        # terraform init
+        # terraform apply -var="project_id=micro-docker-test" -var="region=us-central1" -var="zone=us-central1-a" -var="gcr_var=micro-docker-test" -auto-approve
         terraform output -json > ../terraform_output.json
+
 
   # Run the script to update main.js and Kubernetes YAML files
   - name: 'node:22'
@@ -24,7 +17,7 @@ steps:
     args:
       - '-c'
       - |
-        npm install fs
+        npm install -g fs
         node updateConfig.js
         
   # Build Docker images for the backend and frontend
