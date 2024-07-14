@@ -10,3 +10,7 @@ steps:
     args: ['push', 'gcr.io/micro-docker-test/deploy-backend:latest']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/micro-docker-test/deploy-frontend:latest']
+
+    
+options:
+  logging: CLOUD_LOGGING_ONLY
