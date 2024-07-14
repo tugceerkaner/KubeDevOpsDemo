@@ -1,6 +1,5 @@
 steps:
-
-  # Change directory to where the Terraform files are located and apply Terraform
+  # Apply Terraform to get the IP addresses
   - name: 'hashicorp/terraform:light'
     entrypoint: 'sh'
     args:
@@ -9,7 +8,6 @@ steps:
         cd terraform
         terraform init
         terraform apply -auto-approve
-    id: 'apply-terraform'
 
   # Retrieve the Terraform outputs and update environment variables
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -26,9 +24,9 @@ steps:
     args:
       - '-c'
       - |
-        npm install -g fs
+        npm install fs
         node updateConfig.js
-
+        
   # Build Docker images for the backend and frontend
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/micro-docker-test/deploy-backend:latest', './backend']
@@ -36,46 +34,45 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/micro-docker-test/deploy-frontend:latest', './frontend']
 
-    # Push images to Google Container Registry
+  # Push images to Google Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/micro-docker-test/deploy-backend:latest']
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/micro-docker-test/deploy-frontend:latest']
 
-    # Deploy to GKE
+  # Apply Kubernetes configurations
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/backend-deployment.yaml', '--namespace=backend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/backend-service.yaml', '--namespace=backend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/postgres-init-config.yaml', '--namespace=backend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/postgres-pvc.yaml', '--namespace=backend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/postgres-deployment.yaml', '--namespace=backend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/postgres-service.yaml', '--namespace=backend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/frontend-deployment.yaml', '--namespace=frontend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/frontend-service.yaml', '--namespace=frontend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
-
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=terraform-cluster']
 
 options:
   logging: CLOUD_LOGGING_ONLY

@@ -12,9 +12,7 @@ resource "google_container_cluster" "primary" {
   node_config {
     machine_type = "e2-medium"
   }
-
 }
-
 
 resource "google_compute_address" "frontend_ip" {
   name = "frontend-ip"
@@ -34,8 +32,6 @@ resource "google_artifact_registry_repository" "repo" {
   description  = "Docker repository"
 }
 
-
-
 resource "kubernetes_namespace" "backend_namespace" {
   metadata {
     name = "backend-namespace"
@@ -54,13 +50,12 @@ resource "kubernetes_secret" "db_credentials" {
     namespace = kubernetes_namespace.backend_namespace.metadata[0].name
   }
   data = {
-    DB_HOST     = "db"
-    DB_NAME     = "devops_db"
-    DB_USER     = "dindygomez"
-    DB_PASSWORD = "postgres"
+    DB_HOST     = base64encode("db")
+    DB_NAME     = base64encode("devops_db")
+    DB_USER     = base64encode("dindygomez")
+    DB_PASSWORD = base64encode("postgres")
   }
 }
-
 
 resource "kubernetes_secret" "postgres_credentials" {
   metadata {
@@ -68,8 +63,9 @@ resource "kubernetes_secret" "postgres_credentials" {
     namespace = kubernetes_namespace.backend_namespace.metadata[0].name
   }
   data = {
-    POSTGRES_DB     = "devops_db"
-    POSTGRES_USER   = "dindygomez"
-    POSTGRES_PASSWORD = "postgres"
+    POSTGRES_DB     = base64encode("devops_db")
+    POSTGRES_USER   = base64encode("dindygomez")
+    POSTGRES_PASSWORD = base64encode("postgres")
   }
 }
+
