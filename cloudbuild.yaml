@@ -11,7 +11,6 @@ steps:
         terraform apply -var="project_id=micro-docker-test" -var="region=us-central1" -var="zone=us-central1-a" -auto-approve
         terraform output -json > ../terraform_output.json
 
-
   # Run the script to update main.js and Kubernetes YAML files
   - name: 'node:22'
     entrypoint: 'bash'
