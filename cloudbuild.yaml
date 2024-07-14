@@ -7,7 +7,7 @@ steps:
       - |
         cd terraform
         terraform init
-        terraform apply -auto-approve
+        terraform apply -var="project_id=micro-docker-test" -var="region=us-central1" -var="zone=us-central1-a" -var="gcr_var=micro-docker-test" -auto-approve
 
   # Retrieve the Terraform outputs and update environment variables
   - name: 'gcr.io/cloud-builders/gcloud'
