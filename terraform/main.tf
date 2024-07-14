@@ -19,15 +19,40 @@ data "google_client_config" "default" {}
 
 resource "google_container_cluster" "primary" {
   name     = "terraform-cluster"
-  location = "us-central1-a"
+  location = var.zone
   initial_node_count = 3
   
 
   remove_default_node_pool = true
   node_config {
+    machine_type = "e2-medium"
     disk_size_gb = "20"
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform",
+    ]
   }
 }
+
+
+resource "google_container_node_pool" "primary_nodes" {
+  cluster   = google_container_cluster.primary.name
+  location  = google_container_cluster.primary.location
+  initial_node_count = 3
+
+  node_config {
+    machine_type = "e2-medium"
+    disk_size_gb = 20
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform",
+    ]
+  }
+
+  autoscaling {
+    min_node_count = 1
+    max_node_count = 5
+  }
+}
+
 
 resource "google_compute_address" "frontend_ip" {
   name = "frontend-ip"
