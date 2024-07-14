@@ -5,7 +5,7 @@ metadata:
   namespace: backend-namespace
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.27.58.52
+  loadBalancerIP: ${backend_ip}
   selector:
     app: deploy-backend
   ports:

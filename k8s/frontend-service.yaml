@@ -5,7 +5,7 @@ metadata:
   namespace: frontend-namespace
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.172.138.231
+  loadBalancerIP: ${frontend_ip}
   selector:
     app: deploy-frontend
   ports:

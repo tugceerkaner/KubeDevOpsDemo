@@ -1,4 +1,27 @@
 steps:
+
+  # Apply Terraform to get the IP addresses
+  - name: 'hashicorp/terraform:light'
+    args: ['apply', '-auto-approve']
+    id: 'apply-terraform'
+
+  # Retrieve the Terraform outputs and update environment variables
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        terraform output -json > terraform_output.json
+
+  # Run the script to update main.js and Kubernetes YAML files
+  - name: 'node:22'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        npm install -g fs
+        node updateConfig.js
+        
   # Build Docker images for the backend and frontend
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/micro-docker-test/deploy-backend:latest', './backend']

@@ -40,6 +40,3 @@ spec:
           value: "5432"
         - name: TZ
           value: "America/Toronto"
-      imagePullSecrets:
-      - name: regcred
-  

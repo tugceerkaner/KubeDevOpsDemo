@@ -18,5 +18,3 @@ spec:
         image: gcr.io/micro-docker-test/deploy-frontend:latest
         ports:
         - containerPort: 3000
-      imagePullSecrets:
-      - name: regcred
