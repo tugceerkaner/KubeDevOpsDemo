@@ -1,8 +1,14 @@
 steps:
 
-  # Apply Terraform to get the IP addresses
+  # Change directory to where the Terraform files are located and apply Terraform
   - name: 'hashicorp/terraform:light'
-    args: ['apply', '-auto-approve']
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cd terraform
+        terraform init
+        terraform apply -auto-approve
     id: 'apply-terraform'
 
   # Retrieve the Terraform outputs and update environment variables
@@ -11,7 +17,8 @@ steps:
     args:
       - '-c'
       - |
-        terraform output -json > terraform_output.json
+        cd terraform
+        terraform output -json > ../terraform_output.json
 
   # Run the script to update main.js and Kubernetes YAML files
   - name: 'node:22'
@@ -21,7 +28,7 @@ steps:
       - |
         npm install -g fs
         node updateConfig.js
-        
+
   # Build Docker images for the backend and frontend
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/micro-docker-test/deploy-backend:latest', './backend']
