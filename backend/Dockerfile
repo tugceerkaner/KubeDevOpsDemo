@@ -6,9 +6,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install flask flask-cors psycopg2-binary
+RUN pip install -r requirements.txt
 
 EXPOSE 5000
-
 
 CMD ["python", "app.py"]

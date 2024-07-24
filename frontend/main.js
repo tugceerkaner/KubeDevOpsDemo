@@ -1,4 +1,4 @@
-const backendUrl = 'http://34.27.58.52'; 
+const backendUrl = 'http://localhost:5000'; 
 
 async function fetchMessage(url) {
     const response = await fetch(url);
