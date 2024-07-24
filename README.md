@@ -1,4 +1,4 @@
-# KubeDevOpsDemo
+# KubeDevOpsDemo (Basic)
  Simple Docker project  for Containerization class
 
 
