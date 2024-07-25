@@ -1,10 +1,11 @@
+version: '3.8' # for Docker Swarm
+
 services:
   db:
     image: postgres:13
-    container_name: devops_db
     environment:
       POSTGRES_DB: devops_db
-      POSTGRES_USER: dindygomez
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: postgres
       TZ: America/Toronto
     ports:
@@ -14,43 +15,18 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - devops-network
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: dindygomez@hotmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin123!
-      TZ: America/Toronto
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    networks:
-      - devops-network
-
-  frontend:
-    build:
-      context: ./frontend
-    container_name: frontend
-    environment:
-      TZ: America/Toronto
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    networks:
-      - devops-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
 
   backend:
-    build:
-      context: ./backend
-    container_name: backend
+    image: gcr.io/micro-docker-test/deploy-backend:latest
     ports:
       - "5000:5000"
     environment:
       DB_NAME: devops_db      
-      DB_USER: dindygomez     
+      DB_USER: admin     
       DB_PASSWORD: postgres 
       DB_HOST: db
       DB_PORT: 5432
@@ -59,10 +35,29 @@ services:
       - db
     networks:
       - devops-network
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  frontend:
+    image: gcr.io/micro-docker-test/deploy-frontend:latest
+    environment:
+      TZ: America/Toronto
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - devops-network
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
 
 networks:
   devops-network:
-    driver: bridge
+    driver: overlay  #for Docker Swarm
 
 volumes:
   db_data:
