@@ -1,4 +1,4 @@
-const backendUrl = 'http://backend:5000';
+const backendUrl = 'http://34.29.214.89:5000/'; //backend-external-ip
 
 async function fetchMessage(url) {
     const response = await fetch(url);

@@ -1,4 +1,4 @@
-version: '3.8' # for Docker Swarm
+version: '3.8'
 
 services:
   db:
@@ -14,9 +14,8 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - devops-network
+      - kube_net                                                          
     deploy:
-      replicas: 1
       restart_policy:
         condition: on-failure
 
@@ -25,39 +24,26 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DB_NAME: devops_db      
-      DB_USER: admin     
-      DB_PASSWORD: postgres 
+      DB_NAME: devops_db
+      DB_USER: admin
+      DB_PASSWORD: postgres
       DB_HOST: db
       DB_PORT: 5432
       TZ: America/Toronto
     depends_on:
       - db
     networks:
-      - devops-network
+      - kube_net
     deploy:
+      mode: replicated
       replicas: 2
       restart_policy:
         condition: on-failure
 
-  frontend:
-    image: gcr.io/micro-docker-test/deploy-frontend:latest
-    environment:
-      TZ: America/Toronto
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    networks:
-      - devops-network
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
 
 networks:
-  devops-network:
-    driver: overlay  #for Docker Swarm
+  kube_net:
+    external: true
 
 volumes:
   db_data:
