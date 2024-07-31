@@ -5,9 +5,9 @@ metadata:
   namespace: frontend-namespace
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.172.138.231
+  loadBalancerIP: 35.202.102.139
   selector:
-    app: deploy-frontend
+    app: frontend
   ports:
     - protocol: TCP
       port: 80

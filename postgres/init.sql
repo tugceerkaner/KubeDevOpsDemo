@@ -15,14 +15,14 @@ $$;
 DO
 $$
 BEGIN
-   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'dindygomez') THEN
-      CREATE USER dindygomez WITH ENCRYPTED PASSWORD 'postgres';
+   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'admin') THEN
+      CREATE USER admin WITH ENCRYPTED PASSWORD 'postgres';
    END IF;
 END
 $$;
 
 -- Grant privileges
-GRANT ALL PRIVILEGES ON DATABASE devops_db TO dindygomez;
+GRANT ALL PRIVILEGES ON DATABASE devops_db TO admin;
 
 -- Connect to the devops_db database
 \connect devops_db;

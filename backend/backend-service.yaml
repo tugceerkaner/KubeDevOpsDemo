@@ -5,9 +5,9 @@ metadata:
   namespace: backend-namespace
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.27.58.52
+  loadBalancerIP: 34.67.42.139
   selector:
-    app: deploy-backend
+    app: backend
   ports:
   - protocol: TCP
     port: 80

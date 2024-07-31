@@ -4,7 +4,7 @@ services:
     container_name: devops_db
     environment:
       POSTGRES_DB: devops_db
-      POSTGRES_USER: dindygomez
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: postgres
       TZ: America/Toronto
     ports:
@@ -12,20 +12,6 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - devops-network
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: dindygomez@hotmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin123!
-      TZ: America/Toronto
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
     networks:
       - devops-network
 
@@ -50,7 +36,7 @@ services:
       - "5000:5000"
     environment:
       DB_NAME: devops_db      
-      DB_USER: dindygomez     
+      DB_USER: admin     
       DB_PASSWORD: postgres 
       DB_HOST: db
       DB_PORT: 5432
