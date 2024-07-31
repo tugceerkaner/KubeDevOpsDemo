@@ -2,17 +2,44 @@
  practice project on Devops
 
 
-## Running Docker containers locally
+## Pushing Images to Google Artifact Registry
 
-1. Build the docker containers from Docker Compose
+    Build the docker containers from Docker Compose
 ```
-    docker-compose up --build
+    cd postgres
+    docker build -t gcr.io/micro-docker-test/postgres:latest . 
+    docker push gcr.io/micro-docker-test/postgres:latest
+
+    cd backend
+    docker build -t gcr.io/micro-docker-test/backend:latest . 
+    docker push gcr.io/micro-docker-test/backend:latest
+
+    cd frontend
+    docker build -t gcr.io/micro-docker-test/frontend:latest . 
+    docker push gcr.io/micro-docker-test/frontend:latest
+
 ```
 
-2. Stops and deletes the containers, networks, volumes and images
+## Reserve IP address for the backend and frontend IP
+
+    Build the docker containers from Docker Compose
 ```
-    docker-compose down -v
+    gcloud compute addresses create backend-ip --region us-central1 
+    gcloud compute addresses describe backend-ip --region us-central1 --format="get(address)"
+
+
+    gcloud compute addresses create frontend-ip --region us-central1 
+    gcloud compute addresses describe frontend-ip --region us-central1 --format="get(address)"
+
 ```
+## Create Cluster
+
+ Create cluster
+```
+    gcloud container clusters create kube-cluster --zone us-central1-a --num-nodes=3 
+    gcloud container clusters get-credentials kube-cluster --zone us-central1-a
+```
+
 
 ##  Apply Manifests and Deploy
 
