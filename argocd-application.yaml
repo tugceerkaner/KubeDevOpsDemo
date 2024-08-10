@@ -1,0 +1,62 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/tugceerkaner/KubeDevOpsDemo.git'
+    targetRevision: helm-charts
+    path: helm_charts/backend
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: backend-namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/tugceerkaner/KubeDevOpsDemo.git'
+    targetRevision: helm-charts
+    path: helm_charts/frontend
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: frontend-namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/tugceerkaner/KubeDevOpsDemo.git'
+    targetRevision: helm-charts
+    path: helm_charts/postgres
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: postgres-namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
