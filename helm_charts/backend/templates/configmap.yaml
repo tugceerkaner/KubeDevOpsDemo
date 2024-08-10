@@ -7,5 +7,5 @@ data:
   DB_HOST: {{ .Values.backend.config.DB_HOST }}
   DB_NAME: {{ .Values.backend.config.DB_NAME }}
   DB_USER: {{ .Values.backend.config.DB_USER }}
-  DB_PORT: {{ .Values.backend.config.DB_PORT }}
+  DB_PORT: "{{ .Values.backend.config.DB_PORT }}"
   TZ: {{ .Values.backend.config.TZ }}
