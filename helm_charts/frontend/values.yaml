@@ -1,0 +1,11 @@
+frontend:
+  name: frontend
+  namespace: frontend-namespace
+  image:
+    repository: gcr.io/containerization-projects/frontend
+    tag: latest
+  replicas: 3
+  ports:
+    service: 80
+    container: 3000
+  loadBalancerIP: 104.154.45.67

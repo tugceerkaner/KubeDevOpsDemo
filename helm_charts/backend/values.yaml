@@ -1,0 +1,19 @@
+backend:
+  name: backend
+  namespace: backend-namespace
+  image:
+    repository: gcr.io/containerization-projects/backend
+    tag: latest
+  replicas: 3
+  config:
+    DB_HOST: "postgres-service.postgres-namespace.svc.cluster.local"
+    DB_NAME: "devops_db"
+    DB_USER: "admin"
+    DB_PORT: "5432"
+    TZ: "America/Toronto"
+  secret:
+    DB_PASSWORD: cG9zdGdyZXNz  # "postgres" in base64 encoded format
+  ports:
+    service: 80
+    container: 5000
+  loadBalancerIP: 35.225.17.154

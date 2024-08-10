@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.postgres.name }}-init-config
+  namespace: {{ .Values.postgres.namespace }}
+data:
+  init.sql: |
+    -- Create database if it doesn't exist
+    DO
+    $$
+    BEGIN
+       IF NOT EXISTS (SELECT FROM pg_database WHERE datname = '{{ .Values.postgres.config.POSTGRES_DB }}') THEN
+          PERFORM dblink_exec('dbname=' || current_database(), 'CREATE DATABASE {{ .Values.postgres.config.POSTGRES_DB }}');
+       END IF;
+    END
+    $$;
+
+    -- Create user if it doesn't exist
+    DO
+    $$
+    BEGIN
+       IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '{{ .Values.postgres.config.POSTGRES_USER }}') THEN
+          CREATE USER {{ .Values.postgres.config.POSTGRES_USER }} WITH ENCRYPTED PASSWORD '{{ .Values.postgres.secret.POSTGRES_PASSWORD }}';
+       END IF;
+    END
+    $$;
+
+    -- Grant privileges
+    GRANT ALL PRIVILEGES ON DATABASE {{ .Values.postgres.config.POSTGRES_DB }} TO {{ .Values.postgres.config.POSTGRES_USER }};
+
+    -- Create table if it doesn't exist
+    CREATE TABLE IF NOT EXISTS messages (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
