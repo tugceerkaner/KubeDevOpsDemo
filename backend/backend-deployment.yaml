@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: gcr.io/micro-docker-test/backend:latest
+        image: gcr.io/containerization-projects/backend:latest
         ports:
         - containerPort: 5000
         envFrom:

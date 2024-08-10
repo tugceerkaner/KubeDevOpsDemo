@@ -22,7 +22,7 @@ spec:
           mountPath: /var/lib/postgresql/data
       containers:
       - name: postgres
-        image: gcr.io/micro-docker-test/postgres:latest
+        image: gcr.io/containerization-projects/postgres:latest
         ports:
         - containerPort: 5432
         envFrom:

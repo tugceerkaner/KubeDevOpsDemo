@@ -1,4 +1,4 @@
-const backendUrl = 'http://34.67.42.139'; 
+const backendUrl = 'http://35.225.17.154';
 
 async function fetchMessage(url) {
     const response = await fetch(url);
