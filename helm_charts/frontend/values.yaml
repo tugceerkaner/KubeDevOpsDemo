@@ -3,7 +3,7 @@ frontend:
   namespace: frontend-namespace
   image:
     repository: gcr.io/containerization-projects/frontend
-    tag: v2
+    tag: latest
   replicas: 3
   ports:
     service: 80

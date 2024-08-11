@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: postgres-config
-  namespace: postgres-namespace
-data:
-  POSTGRES_DB: "devops_db"
-  POSTGRES_USER: "admin"
-  TZ: "America/Toronto"
